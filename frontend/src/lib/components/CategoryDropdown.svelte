@@ -278,6 +278,7 @@
 									type="text"
 									placeholder={$t('categories.icon')}
 									class="input input-bordered input-sm flex-1"
+                                    style="width: 55px;"
 									bind:value={new_category.icon}
 								/>
 								<button
@@ -292,7 +293,7 @@
 						</div>
 					</div>
 
-					<div class="flex justify-end">
+					<div>
 						<button
 							on:click={custom_category}
 							type="button"
