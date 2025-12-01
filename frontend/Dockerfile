@@ -37,7 +37,8 @@ RUN rm -f .env
 RUN pnpm run build
 
 # Make startup script executable
-RUN chmod +x ./startup.sh
+RUN sed -i 's/\r$//' ./startup.sh && \
+      chmod +x ./startup.sh
 
 # Change to non-root user for security
 USER node:node
