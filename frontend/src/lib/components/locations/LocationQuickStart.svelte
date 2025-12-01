@@ -322,76 +322,10 @@
 						</div>
 					</div>
 				{/if}
-
-				<!-- Current Location Button -->
-				<div class="flex items-center gap-2">
-					<div class="divider divider-horizontal text-xs">OR</div>
-				</div>
-
-				<button class="btn btn-outline gap-2 w-full" on:click={useCurrentLocation}>
-					<LocationIcon class="w-4 h-4" />
-					{$t('adventures.use_current_location') || 'Use Current Location'}
-				</button>
 			</div>
 		</div>
 	</div>
-
-	<!-- Map Section -->
-	<div class="card bg-base-100 border border-base-300">
-		<div class="card-body p-4">
-			<div class="flex items-center justify-between mb-4">
-				<h3 class="font-semibold flex items-center gap-2">
-					<MapIcon class="w-5 h-5" />
-					{$t('adventures.select_on_map') || 'Select on Map'}
-				</h3>
-				{#if selectedMarker}
-					<button class="btn btn-ghost btn-sm gap-1" on:click={clearSelection}>
-						<ClearIcon class="w-4 h-4" />
-						Clear
-					</button>
-				{/if}
-			</div>
-
-			{#if !selectedMarker}
-				<p class="text-sm text-base-content/60 mb-4">
-					{$t('adventures.click_map') || 'Click on the map to select a location'}
-				</p>
-			{/if}
-
-			{#if isReverseGeocoding}
-				<div class="flex items-center justify-center py-2 mb-4">
-					<span class="loading loading-spinner loading-sm"></span>
-					<span class="ml-2 text-sm text-base-content/60"
-						>{$t('adventures.getting_location_details')}...</span
-					>
-				</div>
-			{/if}
-
-			<div class="relative">
-				<MapLibre
-					bind:this={mapComponent}
-					style={getBasemapUrl()}
-					class="w-full h-80 rounded-lg border border-base-300"
-					center={mapCenter}
-					zoom={mapZoom}
-					standardControls
-				>
-					<MapEvents on:click={handleMapClick} />
-
-					{#if selectedMarker}
-						<Marker
-							lngLat={[selectedMarker.lng, selectedMarker.lat]}
-							class="grid h-8 w-8 place-items-center rounded-full border-2 border-white bg-primary shadow-lg cursor-pointer"
-						>
-							<PinIcon class="w-5 h-5 text-primary-content" />
-						</Marker>
-					{/if}
-				</MapLibre>
-			</div>
-		</div>
-	</div>
-
-	<!-- Selected Location Display -->
+<!-- Selected Location Display -->
 	{#if selectedLocation && selectedMarker}
 		<div class="card bg-success/10 border border-success/30">
 			<div class="card-body p-4">
@@ -456,5 +390,60 @@
 				{$t('adventures.continue')}
 			{/if}
 		</button>
+	</div>
+
+	<!-- Map Section -->
+	<div class="card bg-base-100 border border-base-300">
+		<div class="card-body p-4">
+			<div class="flex items-center justify-between mb-4">
+				<h3 class="font-semibold flex items-center gap-2">
+					<MapIcon class="w-5 h-5" />
+					{$t('adventures.select_on_map') || 'Select on Map'}
+				</h3>
+				{#if selectedMarker}
+					<button class="btn btn-ghost btn-sm gap-1" on:click={clearSelection}>
+						<ClearIcon class="w-4 h-4" />
+						Clear
+					</button>
+				{/if}
+			</div>
+
+			{#if !selectedMarker}
+				<p class="text-sm text-base-content/60 mb-4">
+					{$t('adventures.click_map') || 'Click on the map to select a location'}
+				</p>
+			{/if}
+
+			{#if isReverseGeocoding}
+				<div class="flex items-center justify-center py-2 mb-4">
+					<span class="loading loading-spinner loading-sm"></span>
+					<span class="ml-2 text-sm text-base-content/60"
+						>{$t('adventures.getting_location_details')}...</span
+					>
+				</div>
+			{/if}
+
+			<div class="relative">
+				<MapLibre
+					bind:this={mapComponent}
+					style={getBasemapUrl()}
+					class="w-full h-80 rounded-lg border border-base-300"
+					center={mapCenter}
+					zoom={mapZoom}
+					standardControls
+				>
+					<MapEvents on:click={handleMapClick} />
+
+					{#if selectedMarker}
+						<Marker
+							lngLat={[selectedMarker.lng, selectedMarker.lat]}
+							class="grid h-8 w-8 place-items-center rounded-full border-2 border-white bg-primary shadow-lg cursor-pointer"
+						>
+							<PinIcon class="w-5 h-5 text-primary-content" />
+						</Marker>
+					{/if}
+				</MapLibre>
+			</div>
+		</div>
 	</div>
 </div>
