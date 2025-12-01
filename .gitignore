@@ -3,3 +3,5 @@
 .vscode/settings.json
 .pnpm-store/
 .env
+/adventurelog_media/
+/postgres_data/
