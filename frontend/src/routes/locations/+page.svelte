@@ -501,31 +501,15 @@
 
 	<!-- Floating Action Button -->
 	<div class="fixed bottom-6 right-6 z-40">
-		<div class="dropdown dropdown-top dropdown-end">
-			<div
-				tabindex="0"
-				role="button"
-				class="btn btn-primary btn-circle w-16 h-16 shadow-2xl hover:shadow-primary/25 transition-all duration-200"
-			>
-				<Plus class="w-8 h-8" />
-			</div>
-			<ul
-				class="dropdown-content z-[40] menu p-4 shadow-2xl bg-base-100 rounded-2xl w-64 border border-base-300"
-			>
-				<div class="text-center mb-4">
-					<h3 class="font-bold text-lg">{$t('adventures.create_new')}</h3>
-				</div>
-				<button
-					class="btn btn-primary gap-2 w-full"
-					on:click={() => {
-						isLocationModalOpen = true;
-						adventureToEdit = null;
-					}}
-				>
-					<Compass class="w-5 h-5" />
-					{$t('locations.location')}
-				</button>
-			</ul>
-		</div>
+		<button
+			class="btn btn-primary gap-2 w-full"
+			on:click={() => {
+				isLocationModalOpen = true;
+				adventureToEdit = null;
+			}}
+		>
+			<Compass class="w-5 h-5" />
+			{$t('locations.location')}
+		</button>
 	</div>
 </div>
