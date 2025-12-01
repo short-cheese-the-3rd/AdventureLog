@@ -6,7 +6,6 @@
 	import LocationQuickStart from './locations/LocationQuickStart.svelte';
 	import LocationDetails from './locations/LocationDetails.svelte';
 	import LocationMedia from './locations/LocationMedia.svelte';
-	import LocationVisits from './locations/LocationVisits.svelte';
 
 	export let user: User | null = null;
 	export let collection: Collection | null = null;
@@ -29,11 +28,6 @@
 		},
 		{
 			name: $t('settings.media'),
-			selected: false,
-			requires_id: true
-		},
-		{
-			name: $t('adventures.visits'),
 			selected: false,
 			requires_id: true
 		}
@@ -302,25 +296,8 @@
 					steps[1].selected = true;
 				}}
 				itemId={location.id}
-				on:next={() => {
-					steps[2].selected = false;
-					steps[3].selected = true;
-				}}
+				on:next={() => close()}
 				measurementSystem={user?.measurement_system || 'metric'}
-			/>
-		{/if}
-		{#if steps[3].selected}
-			<LocationVisits
-				bind:visits={location.visits}
-				bind:trails={location.trails}
-				objectId={location.id}
-				on:back={() => {
-					steps[3].selected = false;
-					steps[2].selected = true;
-				}}
-				on:close={() => close()}
-				measurementSystem={user?.measurement_system || 'metric'}
-				{collection}
 			/>
 		{/if}
 	</div>
