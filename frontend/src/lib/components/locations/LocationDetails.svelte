@@ -419,7 +419,7 @@
 	});
 </script>
 
-<div class="min-h-screen bg-gradient-to-br from-base-200/30 via-base-100 to-primary/5 p-6">
+<div class="bg-gradient-to-br from-base-200/30 via-base-100 to-primary/5 p-6">
 	<div class="max-w-full mx-auto space-y-6">
 		<!-- Basic Information Section -->
 		<div class="card bg-base-100 border border-base-300 shadow-lg">
