@@ -703,162 +703,180 @@
 					<h2 class="text-xl font-bold">{$t('adventures.image_management')}</h2>
 				</div>
 
-				<!-- Upload Options Grid -->
-				<div class="grid gap-4 lg:grid-cols-2 mb-6">
-					<!-- File Upload -->
-					<div class="bg-base-50 p-4 rounded-lg border border-base-200">
-						<h4 class="font-medium mb-3 text-base-content/80">
-							{$t('adventures.upload_from_device')}
-						</h4>
-						<input
-							type="file"
-							bind:this={fileInput}
-							class="file-input file-input-bordered w-full"
-							accept="image/*"
-							multiple
-							disabled={isLoading}
-							on:change={handleMultipleFiles}
-						/>
-					</div>
-
-					<!-- URL Upload -->
-					<div class="bg-base-50 p-4 rounded-lg border border-base-200">
-						<h4 class="font-medium mb-3 text-base-content/80">
-							{$t('adventures.upload_from_url')}
-						</h4>
-						<div class="flex gap-2">
-							<input
-								type="url"
-								bind:value={url}
-								class="input input-bordered flex-1"
-								placeholder="https://example.com/image.jpg"
-								disabled={isLoading}
-							/>
-							<button
-								class="btn btn-primary btn-sm"
-								class:loading={isLoading}
-								disabled={isLoading || !url.trim()}
-								on:click={handleUrlUpload}
-							>
-								{$t('adventures.fetch_image')}
-							</button>
-						</div>
-						{#if imageError}
-							<div class="alert alert-error mt-2 py-2">
-								<span class="text-sm">{imageError}</span>
-							</div>
-						{/if}
-					</div>
-
-					<!-- Wikipedia Search -->
-					<div class="bg-base-50 p-4 rounded-lg border border-base-200">
-						<h4 class="font-medium mb-3 text-base-content/80">
-							{$t('adventures.wikipedia')}
-						</h4>
-						<div class="flex gap-2">
-							<input
-								type="text"
-								bind:value={imageSearch}
-								class="input input-bordered flex-1"
-								placeholder="Search Wikipedia for images"
-								disabled={isLoading}
-							/>
-							<button
-								class="btn btn-primary btn-sm"
-								class:loading={isLoading}
-								disabled={isLoading || !imageSearch.trim()}
-								on:click={handleWikiImageSearch}
-							>
-								{$t('adventures.fetch_image')}
-							</button>
-						</div>
-						{#if wikiImageError}
-							<div class="alert alert-error mt-2 py-2">
-								<span class="text-sm">{wikiImageError}</span>
-							</div>
-						{/if}
-					</div>
-
-					<!-- Immich Integration -->
-					{#if immichIntegration}
+				<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+					<!-- Upload Options Grid -->
+					<div>
+						<!-- File Upload -->
 						<div class="bg-base-50 p-4 rounded-lg border border-base-200">
-							<h4 class="font-medium mb-3 text-base-content/80">Immich Integration</h4>
-							<ImmichSelect
-								objectId={itemId}
-								contentType="location"
-								{copyImmichLocally}
-								on:fetchImage={(e) => {
-									url = e.detail;
-									handleUrlUpload();
-								}}
-								on:remoteImmichSaved={handleImmichImageSaved}
+							<h4 class="font-medium mb-3 text-base-content/80">
+								{$t('adventures.upload_from_device')}
+							</h4>
+							<input
+								type="file"
+								bind:this={fileInput}
+								class="file-input file-input-bordered w-full"
+								accept="image/*"
+								multiple
+								disabled={isLoading}
+								on:change={handleMultipleFiles}
 							/>
 						</div>
-					{/if}
-				</div>
 
-				<!-- Image Gallery -->
-				{#if images.length > 0}
-					<div class="divider">Current Images</div>
-					<div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-						{#each images as image (image.id)}
-							<div class="relative group">
-								<div
-									class="aspect-square overflow-hidden rounded-lg bg-base-200 border border-base-300"
+						<!-- URL Upload -->
+						<div class="bg-base-50 p-4 rounded-lg border border-base-200">
+							<h4 class="font-medium mb-3 text-base-content/80">
+								{$t('adventures.upload_from_url')}
+							</h4>
+							<div class="flex gap-2">
+								<input
+									type="url"
+									bind:value={url}
+									class="input input-bordered flex-1"
+									placeholder="https://example.com/image.jpg"
+									disabled={isLoading}
+								/>
+								<button
+									class="btn btn-primary btn-sm"
+									class:loading={isLoading}
+									disabled={isLoading || !url.trim()}
+									on:click={handleUrlUpload}
 								>
-									<img
-										src={image.image}
-										alt="Uploaded content"
-										class="w-full h-full object-cover transition-transform group-hover:scale-105"
-										loading="lazy"
-									/>
-								</div>
-
-								<!-- Image Controls Overlay -->
-								<div
-									class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all duration-200 rounded-lg flex items-center justify-center gap-2"
-								>
-									{#if !image.is_primary}
-										<button
-											type="button"
-											class="btn btn-success btn-sm tooltip tooltip-top"
-											data-tip="Make Primary"
-											on:click={() => makePrimaryImage(image.id)}
-										>
-											<Star class="h-4 w-4" />
-										</button>
-									{/if}
-
-									<button
-										type="button"
-										class="btn btn-error btn-sm tooltip tooltip-top"
-										data-tip="Remove Image"
-										on:click={() => removeImage(image.id)}
-									>
-										<TrashIcon class="h-4 w-4" />
-									</button>
-								</div>
-
-								<!-- Primary Badge -->
-								{#if image.is_primary}
-									<div
-										class="absolute top-2 left-2 bg-warning text-warning-content rounded-full p-1 shadow-lg"
-									>
-										<Crown class="h-4 w-4" />
-									</div>
-								{/if}
+									{$t('adventures.fetch_image')}
+								</button>
 							</div>
-						{/each}
-					</div>
-				{:else}
-					<div class="bg-base-200/50 rounded-lg p-8 text-center">
-						<div class="text-base-content/60 mb-2">{$t('adventures.no_images_uploaded_yet')}</div>
-						<div class="text-sm text-base-content/40">
-							{$t('adventures.upload_first_image')}
+							{#if imageError}
+								<div class="alert alert-error mt-2 py-2">
+									<span class="text-sm">{imageError}</span>
+								</div>
+							{/if}
 						</div>
+
+						<!-- Wikipedia Search -->
+						<div class="bg-base-50 p-4 rounded-lg border border-base-200">
+							<h4 class="font-medium mb-3 text-base-content/80">
+								{$t('adventures.wikipedia')}
+							</h4>
+							<div class="flex gap-2">
+								<input
+									type="text"
+									bind:value={imageSearch}
+									class="input input-bordered flex-1"
+									placeholder="Search Wikipedia for images"
+									disabled={isLoading}
+								/>
+								<button
+									class="btn btn-primary btn-sm"
+									class:loading={isLoading}
+									disabled={isLoading || !imageSearch.trim()}
+									on:click={handleWikiImageSearch}
+								>
+									{$t('adventures.fetch_image')}
+								</button>
+							</div>
+							{#if wikiImageError}
+								<div class="alert alert-error mt-2 py-2">
+									<span class="text-sm">{wikiImageError}</span>
+								</div>
+							{/if}
+						</div>
+
+						<!-- Immich Integration -->
+						{#if immichIntegration}
+							<div class="bg-base-50 p-4 rounded-lg border border-base-200">
+								<h4 class="font-medium mb-3 text-base-content/80">Immich Integration</h4>
+								<ImmichSelect
+									objectId={itemId}
+									contentType="location"
+									{copyImmichLocally}
+									on:fetchImage={(e) => {
+										url = e.detail;
+										handleUrlUpload();
+									}}
+									on:remoteImmichSaved={handleImmichImageSaved}
+								/>
+							</div>
+						{/if}
 					</div>
-				{/if}
+					<div>
+						<!-- Image Gallery -->
+						{#if images.length > 0}
+							<div class="divider">Current Images</div>
+							<div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+								{#each images as image (image.id)}
+									<div class="relative group">
+										<div
+											class="aspect-square overflow-hidden rounded-lg bg-base-200 border border-base-300"
+										>
+											<img
+												src={image.image}
+												alt="Uploaded content"
+												class="w-full h-full object-cover transition-transform group-hover:scale-105"
+												loading="lazy"
+											/>
+										</div>
+
+										<!-- Image Controls Overlay -->
+										<div
+											class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all duration-200 rounded-lg flex items-center justify-center gap-2"
+										>
+											{#if !image.is_primary}
+												<button
+													type="button"
+													class="btn btn-success btn-sm tooltip tooltip-top"
+													data-tip="Make Primary"
+													on:click={() => makePrimaryImage(image.id)}
+												>
+													<Star class="h-4 w-4" />
+												</button>
+											{/if}
+
+											<button
+												type="button"
+												class="btn btn-error btn-sm tooltip tooltip-top"
+												data-tip="Remove Image"
+												on:click={() => removeImage(image.id)}
+											>
+												<TrashIcon class="h-4 w-4" />
+											</button>
+										</div>
+
+										<!-- Primary Badge -->
+										{#if image.is_primary}
+											<div
+												class="absolute top-2 left-2 bg-warning text-warning-content rounded-full p-1 shadow-lg"
+											>
+												<Crown class="h-4 w-4" />
+											</div>
+										{/if}
+									</div>
+								{/each}
+							</div>
+						{:else}
+							<div class="bg-base-200/50 rounded-lg p-8 text-center">
+								<div class="text-base-content/60 mb-2">
+									{$t('adventures.no_images_uploaded_yet')}
+								</div>
+								<div class="text-sm text-base-content/40">
+									{$t('adventures.upload_first_image')}
+								</div>
+							</div>
+						{/if}
+					</div>
+				</div>
 			</div>
+		</div>
+
+		<!-- Action Buttons -->
+		<div class="flex gap-3 justify-end pt-4">
+			<button class="btn btn-neutral-200 gap-2" on:click={handleBack}>
+				<ArrowLeftIcon class="w-5 h-5" />
+				{$t('adventures.back')}
+			</button>
+
+			<button class="btn btn-primary gap-2" on:click={handleNext}>
+				<SaveIcon class="w-5 h-5" />
+				{$t('adventures.done')}
+			</button>
 		</div>
 
 		<!-- Attachment Management Section -->
