@@ -473,45 +473,6 @@
 								</div>
 							{/if}
 						</div>
-
-						<!-- Rating Field -->
-						<div class="form-control">
-							<label class="label" for="rating">
-								<span class="label-text font-medium">{$t('adventures.rating')}</span>
-							</label>
-							<div
-								class="flex items-center gap-4 p-3 bg-base-100/80 border border-base-300 rounded-lg"
-							>
-								<div class="rating">
-									<input
-										type="radio"
-										name="rating"
-										id="rating"
-										class="rating-hidden"
-										checked={Number.isNaN(location.rating)}
-									/>
-									{#each [1, 2, 3, 4, 5] as star}
-										<input
-											type="radio"
-											name="rating"
-											class="mask mask-star-2 bg-warning"
-											on:click={() => (location.rating = star)}
-											checked={location.rating === star}
-										/>
-									{/each}
-								</div>
-								{#if !Number.isNaN(location.rating)}
-									<button
-										type="button"
-										class="btn btn-sm btn-error btn-outline gap-2"
-										on:click={() => (location.rating = NaN)}
-									>
-										<ClearIcon class="w-4 h-4" />
-										{$t('adventures.remove')}
-									</button>
-								{/if}
-							</div>
-						</div>
 					</div>
 
 					<!-- Right Column -->
